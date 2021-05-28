@@ -5,10 +5,10 @@ import { FieldError } from 'react-hook-form'
 interface InputProps extends ChakraInputProps {
   name: string;
   label?: string;
-  error: FieldError;
+  error?: FieldError;
 }
 
-const InputBase = ({ name, label, error, ...rest }: InputProps, ref) => {
+const InputBase = ({ name, label, error = null, ...rest }: InputProps, ref) => {
   return (
     <FormControl isInvalid={!!error}>
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}

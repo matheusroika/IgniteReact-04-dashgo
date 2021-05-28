@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Box, Button, Checkbox, Flex, Heading, Icon, IconButton, Table, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue } from "@chakra-ui/react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Header } from "../../components/Header";
@@ -21,6 +22,7 @@ export default function UserList() {
           <Flex mb='8' justify='space-between' align='center'>
             <Heading size='lg' fontWeight='normal'>Usuários</Heading>
 
+            <Link href='/users/create' passHref>
             { isWideScreen ? (
               <Button
                 as="a"
@@ -40,6 +42,7 @@ export default function UserList() {
                 colorScheme='pink'
               />)
             }
+            </Link>
           </Flex>
 
           <Table colorScheme='whiteAlpha'>

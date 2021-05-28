@@ -1,10 +1,15 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, useBreakpointValue } from '@chakra-ui/react'
 import { Logo } from './Logo'
 import { NotificationNav } from './NotificationsNav'
 import { Profile } from './Profile'
 import { SearchBox } from './SearchBox'
 
 export function Header() {
+  const isWideScreen = useBreakpointValue({
+    base: false,
+    lg: true,
+  })
+
   return (
     <Flex
       as='header'
@@ -18,11 +23,11 @@ export function Header() {
     >
       <Logo />
 
-      <SearchBox />
+      { isWideScreen && <SearchBox /> }
       
       <Flex align='center' ml='auto'>
         <NotificationNav />
-        <Profile />
+        <Profile showProfileData={isWideScreen} />
       </Flex>
     </Flex>
   )

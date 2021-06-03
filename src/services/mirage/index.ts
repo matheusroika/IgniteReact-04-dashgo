@@ -1,4 +1,4 @@
-import { createServer, Factory, Model, Response } from 'miragejs'
+import { createServer, Factory, Model, Response, ActiveModelSerializer } from 'miragejs'
 import faker from 'faker'
 
 faker.locale = 'pt_BR'
@@ -11,6 +11,10 @@ interface User {
 
 export function makeServer() {
   const server = createServer({
+    serializers: {
+      application: ActiveModelSerializer,
+    },
+
     models: {
       user: Model.extend<Partial<User>>({})
     },

@@ -1,4 +1,6 @@
 import { Button } from "@chakra-ui/react";
+import { getUsers } from "../../services/hooks/useUsers";
+import { queryClient } from "../../services/queryClient";
 
 
 interface PaginationItemProps {
@@ -8,6 +10,12 @@ interface PaginationItemProps {
 }
 
 export function PaginationItem({ number, onPageChange, isCurrent = false }: PaginationItemProps) {
+  async function handlePrefetchPage(page: number) {
+    await queryClient.prefetchQuery(['users', page], () => getUsers(page), {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    })
+  }
+
   if (isCurrent) {
     return (
       <Button
@@ -36,7 +44,8 @@ export function PaginationItem({ number, onPageChange, isCurrent = false }: Pagi
         bg: 'gray.500'
       }}
       onClick={() => onPageChange(number)}
-    >
+      onMouseEnter={() => handlePrefetchPage(number)}
+    > 
       {number}
     </Button>
   )

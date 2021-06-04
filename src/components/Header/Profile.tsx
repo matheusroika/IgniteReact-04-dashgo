@@ -13,7 +13,7 @@ export function Profile({ user, showProfileData = true }: ProfileProps) {
         <Box mr='4' textAlign='right'>
           <Text>Matheus Roika</Text>
           <Text color='gray.300' fontSize='small'>
-            {user.email}
+            {user?.email}
           </Text>
         </Box>
       )}

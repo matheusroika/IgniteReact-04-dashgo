@@ -4,6 +4,8 @@ import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
 
 import ptBR from 'apexcharts/dist/locales/pt-br.json'
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 })
@@ -63,9 +65,11 @@ const chartSeries = [
 ]
 
 export default function Dashboard() {
+  const { user } = useContext(AuthContext)
+
   return (
     <Flex direction='column' h='100vh'>
-      <Header />
+      <Header user={user} />
 
       <Flex w='100%' maxW={1480} my='6' mx='auto' px='6' >
         <Sidebar />

@@ -38,6 +38,8 @@ export function makeServer() {
     },
 
     routes() {
+      this.passthrough('http://localhost:3333/**')
+      this.passthrough('/_next/static/development/_devPagesManifest.json')
       this.namespace = 'api'
       this.timing = 750
 
@@ -61,7 +63,7 @@ export function makeServer() {
       this.post('/users')
 
       this.namespace = ''
-      this.passthrough('http://localhost:3333/**')
+      this.passthrough()
     }
   })
 

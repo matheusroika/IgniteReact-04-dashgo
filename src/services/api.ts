@@ -2,6 +2,8 @@ import axios, { AxiosError } from 'axios'
 import { parseCookies, setCookie } from 'nookies'
 
 let cookies = parseCookies()
+let isRefreshing = false
+let failedRequestsQueue = []
 
 export const api = axios.create({
   baseURL: 'http://localhost:3000/api'
@@ -20,21 +22,50 @@ authApi.interceptors.response.use(success => success, (error: AxiosError) => {
       cookies = parseCookies()
       const { 'dashgo.refreshToken': refreshToken } = cookies
 
-      authApi.post('/refresh', {refreshToken})
-        .then(({ data }) => {
-          const { token, refreshToken: newRefreshToken } = data
+      const originalConfig = error.config
 
-          setCookie(undefined, 'dashgo.token', token, {
-            maxAge: 60 * 60 * 24 * 30, // 30 days
-            path: '/',
-          })
-          setCookie(undefined, 'dashgo.refreshToken', newRefreshToken, {
-            maxAge: 60 * 60 * 24 * 30, // 30 days
-            path: '/',
-          })
+      if (!isRefreshing) {
+        isRefreshing = true
 
-          api.defaults.headers['Authorization'] = `Bearer ${token}`
+        authApi.post('/refresh', {refreshToken})
+          .then(({ data }) => {
+            const { token, refreshToken: newRefreshToken } = data
+
+            setCookie(undefined, 'dashgo.token', token, {
+              maxAge: 60 * 60 * 24 * 30, // 30 days
+              path: '/',
+            })
+            setCookie(undefined, 'dashgo.refreshToken', newRefreshToken, {
+              maxAge: 60 * 60 * 24 * 30, // 30 days
+              path: '/',
+            })
+
+            api.defaults.headers['Authorization'] = `Bearer ${token}`
+
+            failedRequestsQueue.forEach(request => request.onSuccess(token))
+            failedRequestsQueue = []
+          })
+          .catch(err => {
+            failedRequestsQueue.forEach(request => request.onFailure(err))
+            failedRequestsQueue = []
+          })
+          .finally(() => {
+            isRefreshing = false
+          })
+      }
+
+      return new Promise((resolve, reject) => {
+        failedRequestsQueue.push({
+          onSuccess: (token: string) => {
+            originalConfig.headers['Authorization'] = `Bearer ${token}`
+
+            resolve(api(originalConfig))
+          },
+          onFailure: (err: AxiosError) => {
+            reject(err)
+          }
         })
+      })  
     } else {
 
     }

@@ -24,8 +24,8 @@ export default function SignIn() {
     resolver: yupResolver(signInFormSchema)
   })
 
-  const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
-    await signIn(values)
+  const handleSignIn: SubmitHandler<SignInFormData> = async (data) => {
+    await signIn(data)
   }
 
   return (

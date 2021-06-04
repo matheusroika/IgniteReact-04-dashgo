@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import { parseCookies, setCookie } from 'nookies'
+import { signOut } from '../contexts/AuthContext'
 
 let cookies = parseCookies()
 let isRefreshing = false
@@ -67,7 +68,9 @@ authApi.interceptors.response.use(success => success, (error: AxiosError) => {
         })
       })  
     } else {
-
+      signOut()
     }
   }
+
+  return Promise.reject(error)
 })

@@ -9,6 +9,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { withSSRAuth } from "../utils/withSSRAuth";
 import { setupAuthClient } from "../services/api";
 import { useCan } from "../hooks/useCan";
+import { Can } from "../components/Can";
 
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
@@ -71,10 +72,6 @@ const chartSeries = [
 export default function Dashboard() {
   const { user } = useContext(AuthContext)
 
-  const userCanSeeMetrics = useCan({
-    permissions: ['metrics.list']
-  })
-
   return (
     <Flex direction='column' h='100vh'>
       <Header user={user} />
@@ -82,7 +79,7 @@ export default function Dashboard() {
       <Flex w='100%' maxW={1480} my='6' mx='auto' px='6' >
         <Sidebar />
 
-        { userCanSeeMetrics && (
+        <Can permissions={['metrics.list']}>
           <SimpleGrid flex='1' gap='4' minChildWidth={320} align='flex-start'>
             <Box p={['6', '8']} bg='gray.800' borderRadius={8} pb='4'>
               <Text fontSize='lg' mb='4'>Inscritos da semana</Text>
@@ -93,9 +90,8 @@ export default function Dashboard() {
               <Text fontSize='lg' mb='4'>Taxa de abertura</Text>
               <Chart options={chartOptions} series={chartSeries} type='area' height={160} />
             </Box>
-
           </SimpleGrid>
-        )}
+        </Can>
         
       </Flex>
     </Flex>

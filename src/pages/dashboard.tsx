@@ -6,6 +6,8 @@ import { Sidebar } from "../components/Sidebar";
 import ptBR from 'apexcharts/dist/locales/pt-br.json'
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { withSSRAuth } from "../utils/withSSRAuth";
+import { setupAuthClient } from "../services/api";
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 })
@@ -90,3 +92,15 @@ export default function Dashboard() {
     </Flex>
   )
 }
+
+export const getServerSideProps = withSSRAuth(async (ctx) => {
+  const authApi = setupAuthClient(ctx)
+  const { data } = await authApi.get('/me')
+
+  console.log(data)
+
+
+  return {
+    props: {}
+  }
+})

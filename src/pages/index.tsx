@@ -78,7 +78,7 @@ export default function SignIn() {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = withSSRGuest(async (ctx) => {
+export const getServerSideProps = withSSRGuest(async () => {
   return {
     props: {}
   }

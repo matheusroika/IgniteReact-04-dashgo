@@ -27,10 +27,12 @@ interface AuthProviderProps {
 }
 
 export function signOut() {
-  destroyCookie(undefined, 'dashgo.token')
-  destroyCookie(undefined, 'dashgo.refreshToken')
+  if (process.browser) {
+    destroyCookie(undefined, 'dashgo.token')
+    destroyCookie(undefined, 'dashgo.refreshToken')
 
-  Router.push('/')
+    Router.push('/')
+  }
 }
 
 export function AuthContextProvider({ children }: AuthProviderProps) {

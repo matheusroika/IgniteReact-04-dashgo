@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { getUsers } from "../../services/hooks/useUsers";
+import { getUsers } from "../../hooks/useUsers";
 import { queryClient } from "../../services/queryClient";
 
 

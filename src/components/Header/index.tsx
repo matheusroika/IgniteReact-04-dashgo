@@ -8,10 +8,10 @@ import { Profile } from './Profile'
 import { SearchBox } from './SearchBox'
 
 interface HeaderProps {
-  user: User;
+  user?: User;
 }
 
-export function Header({ user }: HeaderProps) {
+export function Header({ user = null }: HeaderProps) {
   const { onOpen } = useSidebarDrawer()
 
   const isWideScreen = useBreakpointValue({

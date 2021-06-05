@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, VStack } from "@chakra-ui/react";
 import Link from "next/link";
+
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -12,6 +13,7 @@ import { api } from "../../services/api";
 import { Input } from "../../components/Form/Input";
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
+import { withSSRAuth } from "../../utils/withSSRAuth";
 
 interface CreateUserFormData {
   name: string;
@@ -125,3 +127,12 @@ export default function CreateUser() {
     </Box>
   )
 }
+
+export const getServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+}, {
+  permissions: ['users.create'],
+  roles: ['administrator'],
+})

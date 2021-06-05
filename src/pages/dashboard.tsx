@@ -70,11 +70,9 @@ const chartSeries = [
 ]
 
 export default function Dashboard() {
-  const { user } = useContext(AuthContext)
-
   return (
     <Flex direction='column' h='100vh'>
-      <Header user={user} />
+      <Header />
 
       <Flex w='100%' maxW={1480} my='6' mx='auto' px='6' >
         <Sidebar />

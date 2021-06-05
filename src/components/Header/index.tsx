@@ -7,11 +7,7 @@ import { NotificationNav } from './NotificationsNav'
 import { Profile } from './Profile'
 import { SearchBox } from './SearchBox'
 
-interface HeaderProps {
-  user?: User;
-}
-
-export function Header({ user = null }: HeaderProps) {
+export function Header() {
   const { onOpen } = useSidebarDrawer()
 
   const isWideScreen = useBreakpointValue({
@@ -51,7 +47,7 @@ export function Header({ user = null }: HeaderProps) {
       
       <Flex align='center' ml='auto'>
         <NotificationNav />
-        <Profile user={user} showProfileData={isWideScreen} />
+        <Profile showProfileData={isWideScreen} />
       </Flex>
     </Flex>
   )

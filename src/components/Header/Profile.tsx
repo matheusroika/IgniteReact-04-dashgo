@@ -1,12 +1,14 @@
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
-import { User } from "../../contexts/AuthContext";
+import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 interface ProfileProps {
   showProfileData?: boolean;
-  user: User;
 }
 
-export function Profile({ user, showProfileData = true }: ProfileProps) {
+export function Profile({ showProfileData = true }: ProfileProps) {
+  const { user, signOut } = useContext(AuthContext)
+
   return (
     <Flex align='center'>
       { showProfileData && (
@@ -17,8 +19,10 @@ export function Profile({ user, showProfileData = true }: ProfileProps) {
           </Text>
         </Box>
       )}
-
-      <Avatar size='md' name='Matheus Roika' src='https://github.com/matheusroika.png' />
+      
+      <Button variant='unstyled' onClick={signOut}>
+        <Avatar size='md' name='Matheus Roika' src='https://github.com/matheusroika.png' />
+      </Button>
     </Flex>
   )
 }

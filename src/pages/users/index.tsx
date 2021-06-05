@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Box, Button, Center, Checkbox, Flex, Heading, Icon, IconButton, Spinner, Table, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { useUsers } from "../../services/hooks/useUsers";
+import { useUsers } from "../../hooks/useUsers";
 
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Header } from "../../components/Header";

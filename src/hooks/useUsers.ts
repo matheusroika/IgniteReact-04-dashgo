@@ -1,5 +1,5 @@
 import { useQuery } from "react-query"
-import { api } from "../api"
+import { api } from "../services/api"
 
 interface User {
   id: string;

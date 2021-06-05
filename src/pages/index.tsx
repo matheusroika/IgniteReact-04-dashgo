@@ -1,6 +1,5 @@
 import { useContext } from 'react'
 import { GetServerSideProps } from 'next'
-import { parseCookies } from 'nookies'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Flex, Button, Stack } from '@chakra-ui/react'
 import * as yup from 'yup'
@@ -8,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { AuthContext } from '../contexts/AuthContext'
 import { Input } from '../components/Form/Input'
+import { withSSRGuest } from '../utils/withSSRGuest'
 
 interface SignInFormData {
   email: string;
@@ -78,19 +78,8 @@ export default function SignIn() {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const cookies = parseCookies(ctx)
-
-  if (cookies['dashgo.token']) {
-    return {
-      redirect: {
-        destination: '/dashboard',
-        permanent: false,
-      }
-    }
-  }
-
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async (ctx) => {
   return {
     props: {}
   }
-}
+})

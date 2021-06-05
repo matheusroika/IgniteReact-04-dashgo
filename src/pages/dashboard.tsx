@@ -8,6 +8,8 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { withSSRAuth } from "../utils/withSSRAuth";
 import { setupAuthClient } from "../services/api";
+import { AuthTokenError } from "../services/errors/AuthTokenError";
+import { destroyCookie } from "nookies";
 const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 })
@@ -96,9 +98,6 @@ export default function Dashboard() {
 export const getServerSideProps = withSSRAuth(async (ctx) => {
   const authApi = setupAuthClient(ctx)
   const { data } = await authApi.get('/me')
-
-  console.log(data)
-
 
   return {
     props: {}
